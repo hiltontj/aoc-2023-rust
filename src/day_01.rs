@@ -1,4 +1,4 @@
-use std::{fs::File, io::Read, path::Path};
+use aoc_2023_rust::util::file_to_string;
 
 pub fn part_1() -> u64 {
     let input = file_to_string("input/day_01.txt");
@@ -83,12 +83,4 @@ fn digitify(s: &str) -> String {
         }
     }
     result
-}
-
-fn file_to_string<P: AsRef<Path>>(path: P) -> String {
-    let mut file = File::open(path).expect("valid file path");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)
-        .expect("read file to string");
-    contents
 }
