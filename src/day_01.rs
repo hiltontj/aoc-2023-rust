@@ -5,7 +5,7 @@ pub fn part_1() -> u64 {
     let mut cal_vals: Vec<u64> = vec![];
 
     for line in input.lines() {
-        cal_vals.push(calibration_value(&line))
+        cal_vals.push(calibration_value(line))
     }
     cal_vals.iter().sum()
 }

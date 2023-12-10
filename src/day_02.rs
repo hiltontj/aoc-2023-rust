@@ -18,6 +18,16 @@ pub fn part_1() -> usize {
     result
 }
 
+pub fn part_2() -> usize {
+    let input = file_to_string("input/day_02.txt");
+    let mut result = 0;
+    for line in input.lines() {
+        let game = Game::from_str(line).expect("game from line");
+        result += game.power();
+    }
+    result
+}
+
 struct Game(Vec<Set>);
 
 impl Game {
@@ -25,6 +35,14 @@ impl Game {
         self.0
             .iter()
             .all(|s| s.red < 13 && s.green < 14 && s.blue < 15)
+    }
+
+    fn power(self) -> usize {
+        let min_set: Set = self
+            .0
+            .into_iter()
+            .fold(Set::default(), |acc, s| acc.combine(s));
+        min_set.power()
     }
 }
 
@@ -42,11 +60,25 @@ impl FromStr for Game {
     }
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 struct Set {
     red: usize,
     green: usize,
     blue: usize,
+}
+
+impl Set {
+    fn power(&self) -> usize {
+        self.red * self.green * self.blue
+    }
+
+    fn combine(self, other: Self) -> Self {
+        Self {
+            red: self.red.max(other.red),
+            green: self.green.max(other.green),
+            blue: self.blue.max(other.blue),
+        }
+    }
 }
 
 impl FromStr for Set {
